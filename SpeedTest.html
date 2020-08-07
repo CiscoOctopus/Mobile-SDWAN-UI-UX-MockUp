@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MobileSDWAN Test</title>
+</head>
+
+<script language=Javascript>
+
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';   
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return pwd;
+}
+    var rand = Math.random();
+    var src=[];
+    var delta =[];
+    src[0] = "http://n.sinaimg.cn/sports/2_img/upload/27e42ba1/107/w683h1024/20200726/cc8c-iwxpesw9301496.jpg" + "?" + randomString(10)
+    src[1] = "https://www.cisco.com/c/zh_cn/index/_jcr_content/homepagemaincontentparsys/section_container_23/target_content_parsys/context_banner/image.img.png/1592450130464.png" + "?" + randomString(10)
+    
+
+    //start timestamp
+    var startTime  = new Date();
+
+document.write("<img height=1px width=1px src='"+ src[1] +"' onload=speed(0)>")
+document.write("<img height=1px width=1px src='"+ src[0] +"' onload=speed(1)>")
+  function speed(id)
+  {
+      var endTime = new Date();
+      delta[id]= endTime- startTime;
+      console.log(delta[id]);
+      onchange();
+  }
+
+
+function onchange(){
+    var oSelect=document.getElementById("select1");
+    var lowest = 0;
+    for (var i = 0; i < delta.length; i++) {
+        if ( (oSelect.options[i].text.indexOf("ms") < 0) && ( delta[i]!= null )){
+            oSelect.options[i].text = oSelect.options[i].text +"Latency:" + delta[i] + "ms"
+        }
+        
+       if (delta[i] < delta[lowest]) lowest = i;
+    }
+    console.log(lowest,"|",delta)
+    oSelect.options[lowest].selected = true;
+    
+}
+sleep(10)
+
+</script>
+
+<body>
+    <input id="oText1" type="text" value=""/>
+    <input id="oBtn1" type="button" value="按钮"/>
+    <select id="select1">
+      <option value="0">广州</option>
+      <option value="1">上海</option>
+      <option value="2">北京</option>
+    </select>
+    </body>
+    </html>
